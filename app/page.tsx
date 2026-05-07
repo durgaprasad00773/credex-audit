@@ -1,4 +1,4 @@
-import SpendForm from "@/components/SpendForm"
+import SpendForm from "../components/SpendForm"
 
 export default function Home() {
   return (
