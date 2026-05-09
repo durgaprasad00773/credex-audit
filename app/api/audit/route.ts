@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { AuditResult, FormData } from "@/types"
-
-// In-memory store for now (we'll add Supabase later)
-const audits = new Map<string, { form: FormData; result: AuditResult }>()
+import { supabase } from "@/lib/supabase"
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,8 +11,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid audit data" }, { status: 400 })
     }
 
-    // Store audit
-    audits.set(result.id, { form, result })
+    const { error } = await supabase.from("audits").insert({
+      id: result.id,
+      form_data: form,
+      result: result,
+      created_at: result.createdAt,
+    })
+
+    if (error) {
+      console.error("Supabase error:", error)
+      return NextResponse.json({ error: "Failed to save audit" }, { status: 500 })
+    }
 
     return NextResponse.json({ id: result.id })
   } catch (err) {
@@ -32,13 +39,17 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Missing id" }, { status: 400 })
     }
 
-    const audit = audits.get(id)
+    const { data, error } = await supabase
+      .from("audits")
+      .select("*")
+      .eq("id", id)
+      .single()
 
-    if (!audit) {
+    if (error || !data) {
       return NextResponse.json({ error: "Audit not found" }, { status: 404 })
     }
 
-    return NextResponse.json(audit)
+    return NextResponse.json({ form: data.form_data, result: data.result })
   } catch (err) {
     console.error(err)
     return NextResponse.json({ error: "Server error" }, { status: 500 })
