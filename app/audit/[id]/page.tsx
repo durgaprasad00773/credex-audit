@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import Link from "next/link"
 
 export default function AuditPage() {
   const { id } = useParams()
@@ -32,7 +33,7 @@ export default function AuditPage() {
         const data = await res.json()
         setResult(data.result)
         setForm(data.form)
-      } catch (err) {
+      } catch {
         setError("Audit not found or expired.")
       } finally {
         setLoading(false)
@@ -103,7 +104,7 @@ export default function AuditPage() {
       <div className="text-center mb-10">
         <h1 className="text-4xl font-bold mb-2">Your AI Spend Audit</h1>
         <p className="text-muted-foreground mb-6">
-          Here's where your money is going — and where you can save.
+          Here&apos;s where your money is going — and where you can save.
         </p>
         <div className="grid grid-cols-2 gap-4 max-w-sm mx-auto">
           <Card className="bg-primary text-primary-foreground">
@@ -147,7 +148,7 @@ export default function AuditPage() {
               💡 You could save even more with Credex
             </h3>
             <p className="text-muted-foreground text-sm mb-3">
-              Credex sells discounted AI credits — Cursor, Claude, ChatGPT Enterprise and more — at up to 40% off retail. Your audit shows significant overspend. Let's talk.
+              Credex sells discounted AI credits — Cursor, Claude, ChatGPT Enterprise and more — at up to 40% off retail. Your audit shows significant overspend. Let&apos;s talk.
             </p>
             <Button>Book a Free Credex Consultation →</Button>
           </CardContent>
@@ -158,9 +159,9 @@ export default function AuditPage() {
       {isLowSavings && (
         <Card className="mb-6">
           <CardContent className="pt-6">
-            <h3 className="font-semibold mb-1">✅ You're spending well</h3>
+            <h3 className="font-semibold mb-1">✅ You&apos;re spending well</h3>
             <p className="text-muted-foreground text-sm">
-              Your current AI stack looks optimized. We'll notify you when new savings apply to your tools.
+              Your current AI stack looks optimized. We&apos;ll notify you when new savings apply to your tools.
             </p>
           </CardContent>
         </Card>
@@ -282,9 +283,9 @@ export default function AuditPage() {
 
       {/* Start over */}
       <div className="text-center mt-6">
-        <a href="/" className="text-sm text-muted-foreground underline">
+        <Link href="/" className="text-sm text-muted-foreground underline">
           ← Start a new audit
-        </a>
+        </Link>
       </div>
     </div>
   )
