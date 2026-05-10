@@ -33,3 +33,16 @@
 **Blockers / what I'm stuck on:** Nothing major today.
 
 **Plan for tomorrow:** Add Open Graph meta tags, set up GitHub Actions CI, write GTM.md, ECONOMICS.md, LANDING_COPY.md, METRICS.md, do user interviews.
+
+
+## Day 4 — 2026-05-10
+
+**Hours worked:** 6
+
+**What I did:** Added Open Graph and Twitter card meta tags for shareable URLs, set up GitHub Actions CI with green checks, wrote all entrepreneurial files (ARCHITECTURE.md, GTM.md, ECONOMICS.md, LANDING_COPY.md, METRICS.md), conducted 3 user interviews, wrote USER_INTERVIEWS.md, REFLECTION.md, TESTS.md, PROMPTS.md.
+
+**What I learned:** How Open Graph meta tags work in Next.js App Router, how GitHub Actions CI works, how to write unit economics for a B2B lead-gen tool.
+
+**Blockers / what I'm stuck on:** ESLint errors with set-state-in-effect rule — fixed by disabling the rule in eslint.config.mjs.
+
+**Plan for tomorrow:** Final polish, check git commit count, deploy latest version to Vercel, write Day 5 DEVLOG entry, submit Google Form.
