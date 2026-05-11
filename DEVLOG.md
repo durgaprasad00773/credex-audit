@@ -46,3 +46,15 @@
 **Blockers / what I'm stuck on:** ESLint errors with set-state-in-effect rule — fixed by disabling the rule in eslint.config.mjs.
 
 **Plan for tomorrow:** Final polish, check git commit count, deploy latest version to Vercel, write Day 5 DEVLOG entry, submit Google Form.
+
+## Day 5 — 2026-05-11
+
+**Hours worked:** 5
+
+**What I did:** Added more audit engine savings rules for Windsurf, Gemini, Cursor, and GitHub Copilot. Fixed all ESLint errors and got GitHub Actions CI green. Replaced number inputs with text inputs for better UX. Added footer with Credex branding. Fixed placeholder values showing instead of default zeros in form inputs. Pushed all changes to Vercel.
+
+**What I learned:** How ESLint config works in Next.js with eslint.config.mjs. How Vercel auto-deploys on every git push. How to show empty placeholders instead of zero values in controlled React inputs.
+
+**Blockers / what I'm stuck on:** The footer anchor tag kept breaking when copy-pasting code. Git commit history only has 4 distinct days — need one more day of commits tomorrow.
+
+**Plan for tomorrow:** Final UI polish, add screenshots to README, verify all required files are present, submit Google Form before May 13 deadline.
