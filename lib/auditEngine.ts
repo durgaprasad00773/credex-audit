@@ -159,6 +159,92 @@ function analyzeTool(
 
   const currentSpend = monthlySpend || TOOL_PRICES[toolId]?.[planName] * seats || 0
 
+
+  // Windsurf rules
+  if (toolId === "windsurf") {
+    if (planName === "team" && seats <= 2) {
+      const currentCost = TOOL_PRICES.windsurf.team * seats
+      const recommendedCost = TOOL_PRICES.windsurf.pro * seats
+      savings = currentCost - recommendedCost
+      recommendedAction = "Downgrade to Windsurf Pro"
+      recommendedPlan = "Pro"
+      reason = `Windsurf Team adds collaboration features unnecessary for ${seats} users. Pro plan has identical AI features at lower cost.`
+    }
+    if (useCase === "writing" || useCase === "research") {
+      const currentCost = monthlySpend
+      const alternativeCost = TOOL_PRICES.claude.pro * seats
+      if (alternativeCost < currentCost) {
+        savings = currentCost - alternativeCost
+        recommendedAction = "Switch to Claude Pro"
+        recommendedTool = "Claude"
+        recommendedPlan = "Pro"
+        reason = `For ${useCase} tasks, Claude Pro outperforms Windsurf at lower cost. Windsurf is optimized for coding workflows.`
+      }
+    }
+  }
+
+  // Gemini additional rules
+  if (toolId === "gemini") {
+    if (planName === "pro" && useCase === "coding") {
+      const currentCost = TOOL_PRICES.gemini.pro * seats
+      const alternativeCost = TOOL_PRICES.github_copilot.individual * seats
+      if (alternativeCost < currentCost) {
+        savings = currentCost - alternativeCost
+        recommendedAction = "Switch to GitHub Copilot Individual"
+        recommendedTool = "GitHub Copilot"
+        recommendedPlan = "Individual"
+        reason = `For coding tasks, GitHub Copilot has deeper IDE integration than Gemini Pro and costs less per seat.`
+      }
+    }
+  }
+
+  // OpenAI API rules
+  if (toolId === "openai_api") {
+    if (useCase === "writing" || useCase === "research") {
+      recommendedAction = "Consider Claude API instead"
+      recommendedTool = "Anthropic API"
+      reason = `For ${useCase} tasks, Claude API offers competitive pricing with strong performance. Compare token costs at your usage level.`
+      savings = 0
+    }
+  }
+
+  // Anthropic API rules
+  if (toolId === "anthropic_api") {
+    if (useCase === "coding") {
+      recommendedAction = "Consider OpenAI API or Groq for coding tasks"
+      recommendedTool = "OpenAI API"
+      reason = `For coding tasks, OpenAI's GPT-4o and Groq's Llama models offer strong performance at competitive token prices.`
+      savings = 0
+    }
+  }
+
+  // Cursor additional rules
+  if (toolId === "cursor") {
+    if (planName === "enterprise" && seats <= 5) {
+      const currentCost = TOOL_PRICES.cursor.enterprise * seats
+      const recommendedCost = TOOL_PRICES.cursor.business * seats
+      savings = currentCost - recommendedCost
+      recommendedAction = "Downgrade to Cursor Business"
+      recommendedPlan = "Business"
+      reason = `Cursor Enterprise adds custom deployment and advanced security — unnecessary for teams under 10. Business plan covers all standard features.`
+    }
+  }
+
+  // GitHub Copilot additional rules
+  if (toolId === "github_copilot") {
+    if (planName === "business" && useCase !== "coding" && useCase !== "mixed") {
+      const currentCost = TOOL_PRICES.github_copilot.business * seats
+      const alternativeCost = TOOL_PRICES.claude.pro * seats
+      if (alternativeCost < currentCost) {
+        savings = currentCost - alternativeCost
+        recommendedAction = "Switch to Claude Pro"
+        recommendedTool = "Claude"
+        recommendedPlan = "Pro"
+        reason = `GitHub Copilot is optimized for coding. For ${useCase} tasks, Claude Pro offers better performance at lower cost.`
+      }
+    }
+  }
+
   return {
     toolId,
     toolName,
