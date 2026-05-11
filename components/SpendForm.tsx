@@ -11,46 +11,14 @@ import { runAudit } from "@/lib/auditEngine"
 import { useRouter } from "next/navigation"
 
 const TOOLS = [
-  {
-    id: "cursor",
-    name: "Cursor",
-    plans: ["hobby", "pro", "business", "enterprise"],
-  },
-  {
-    id: "github_copilot",
-    name: "GitHub Copilot",
-    plans: ["individual", "business", "enterprise"],
-  },
-  {
-    id: "claude",
-    name: "Claude",
-    plans: ["free", "pro", "max", "team", "enterprise", "api"],
-  },
-  {
-    id: "chatgpt",
-    name: "ChatGPT",
-    plans: ["free", "plus", "team", "enterprise", "api"],
-  },
-  {
-    id: "anthropic_api",
-    name: "Anthropic API",
-    plans: ["payasyougo"],
-  },
-  {
-    id: "openai_api",
-    name: "OpenAI API",
-    plans: ["payasyougo"],
-  },
-  {
-    id: "gemini",
-    name: "Gemini",
-    plans: ["free", "pro", "ultra", "api"],
-  },
-  {
-    id: "windsurf",
-    name: "Windsurf",
-    plans: ["free", "pro", "team"],
-  },
+  { id: "cursor", name: "Cursor", plans: ["hobby", "pro", "business", "enterprise"] },
+  { id: "github_copilot", name: "GitHub Copilot", plans: ["individual", "business", "enterprise"] },
+  { id: "claude", name: "Claude", plans: ["free", "pro", "max", "team", "enterprise", "api"] },
+  { id: "chatgpt", name: "ChatGPT", plans: ["free", "plus", "team", "enterprise", "api"] },
+  { id: "anthropic_api", name: "Anthropic API", plans: ["payasyougo"] },
+  { id: "openai_api", name: "OpenAI API", plans: ["payasyougo"] },
+  { id: "gemini", name: "Gemini", plans: ["free", "pro", "ultra", "api"] },
+  { id: "windsurf", name: "Windsurf", plans: ["free", "pro", "team"] },
 ]
 
 const EMPTY_TOOL: ToolEntry = {
@@ -71,7 +39,6 @@ export default function SpendForm() {
   const [form, setForm] = useState<FormData>(DEFAULT_FORM)
   const [loading, setLoading] = useState(false)
 
-  // Load from localStorage on mount
   useEffect(() => {
     const saved = localStorage.getItem("credex_form")
     if (saved) {
@@ -81,7 +48,6 @@ export default function SpendForm() {
     }
   }, [])
 
-  // Save to localStorage on change
   useEffect(() => {
     localStorage.setItem("credex_form", JSON.stringify(form))
   }, [form])
@@ -110,14 +76,11 @@ export default function SpendForm() {
     setLoading(true)
     try {
       const result = runAudit(form)
-
-      // Save to API
       const res = await fetch("/api/audit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ form, result }),
       })
-
       const data = await res.json()
       router.push(`/audit/${data.id}`)
     } catch (err) {
@@ -147,12 +110,14 @@ export default function SpendForm() {
           <div className="space-y-2">
             <Label>Team Size</Label>
             <Input
-              type="number"
-              min={1}
+              type="text"
+              inputMode="numeric"
+              placeholder="e.g. 5"
               value={form.teamSize}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, teamSize: parseInt(e.target.value) || 1 }))
-              }
+              onChange={(e) => {
+                const val = e.target.value.replace(/[^0-9]/g, "")
+                setForm((f) => ({ ...f, teamSize: parseInt(val) || 1 }))
+              }}
             />
           </div>
           <div className="space-y-2">
@@ -239,24 +204,28 @@ export default function SpendForm() {
               <div className="space-y-2">
                 <Label>Number of Seats</Label>
                 <Input
-                  type="number"
-                  min={1}
+                  type="text"
+                  inputMode="numeric"
+                  placeholder="e.g. 3"
                   value={tool.seats}
-                  onChange={(e) =>
-                    updateTool(index, "seats", parseInt(e.target.value) || 1)
-                  }
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/[^0-9]/g, "")
+                    updateTool(index, "seats", parseInt(val) || 1)
+                  }}
                 />
               </div>
 
               <div className="space-y-2">
                 <Label>Monthly Spend ($)</Label>
                 <Input
-                  type="number"
-                  min={0}
+                  type="text"
+                  inputMode="decimal"
+                  placeholder="e.g. 40"
                   value={tool.monthlySpend}
-                  onChange={(e) =>
-                    updateTool(index, "monthlySpend", parseFloat(e.target.value) || 0)
-                  }
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/[^0-9.]/g, "")
+                    updateTool(index, "monthlySpend", parseFloat(val) || 0)
+                  }}
                 />
               </div>
             </CardContent>
@@ -281,6 +250,22 @@ export default function SpendForm() {
       <p className="text-center text-xs text-muted-foreground mt-4">
         No account required. Results are instant.
       </p>
+
+      {/* Footer */}
+      <div className="text-center mt-16 pt-8 border-t">
+        <p className="text-xs text-muted-foreground">
+          Built by{" "}
+          <a  
+            href="https://credex.rocks"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-foreground"
+          >
+            Credex
+          </a>{" "}
+          — discounted AI infrastructure credits for startups.
+        </p>
+      </div>
     </div>
   )
 }
