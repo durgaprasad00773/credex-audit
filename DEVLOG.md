@@ -58,3 +58,15 @@
 **Blockers / what I'm stuck on:** The footer anchor tag kept breaking when copy-pasting code. Git commit history only has 4 distinct days — need one more day of commits tomorrow.
 
 **Plan for tomorrow:** Final UI polish, add screenshots to README, verify all required files are present, submit Google Form before May 13 deadline.
+
+## Day 6 — 2026-05-12
+
+**Hours worked:** 4
+
+**What I did:** Added skeleton loading states for faster perceived performance on the results page. Improved README with tech stack table, project structure, live URL, and screenshots. Ran final tests — all 5 passing. Verified live URL works end to end on Vercel. Confirmed 5 distinct commit days in git history. Submitted the Google Form.
+
+**What I learned:** How skeleton loading states improve perceived performance without changing actual load time. How to write a professional README that communicates the project clearly to both humans and AI reviewers.
+
+**Blockers / what I'm stuck on:** Nothing major. Git commit day count was the biggest risk — resolved by working consistently across 5 days.
+
+**Plan for tomorrow:** Wait for Round 1 results within 3 working days of the deadline.
