@@ -81,8 +81,20 @@ export default function AuditPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-muted-foreground">Loading your audit...</p>
+      <div className="max-w-3xl mx-auto px-4 py-12">
+        <div className="text-center mb-10">
+          <div className="h-8 bg-muted rounded w-64 mx-auto mb-3 animate-pulse"></div>
+          <div className="h-4 bg-muted rounded w-48 mx-auto mb-6 animate-pulse"></div>
+          <div className="grid grid-cols-2 gap-4 max-w-sm mx-auto">
+            <div className="h-24 bg-muted rounded-lg animate-pulse"></div>
+            <div className="h-24 bg-muted rounded-lg animate-pulse"></div>
+          </div>
+        </div>
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="h-32 bg-muted rounded-lg animate-pulse"></div>
+          ))}
+        </div>
       </div>
     )
   }
@@ -133,7 +145,11 @@ export default function AuditPage() {
         </CardHeader>
         <CardContent>
           {summaryLoading ? (
-            <p className="text-muted-foreground text-sm">Generating your personalized summary...</p>
+            <div className="space-y-2 animate-pulse">
+              <div className="h-3 bg-muted rounded w-full"></div>
+              <div className="h-3 bg-muted rounded w-5/6"></div>
+              <div className="h-3 bg-muted rounded w-4/6"></div>
+            </div>
           ) : (
             <p className="text-sm leading-relaxed">{summary}</p>
           )}
@@ -238,7 +254,6 @@ export default function AuditPage() {
                   />
                 </div>
               </div>
-              {/* Honeypot - hidden from real users */}
               <input
                 type="text"
                 name="website"
